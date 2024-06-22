@@ -1,26 +1,19 @@
 require('dotenv').config()
-const userController = require('./controllers/autentication/users')
-const loginController = require('./controllers/login')
-const clientController = require('./controllers/client')
-const todoController = require('./controllers/autentication/todo')
-const cookieParser = require('cookie-parser')
+const observationsController = require('./controllers/observation')
 const mongoose = require('mongoose')
 const express = require('express')
 const servidor = express()
 servidor.use(express.json())
-servidor.use(cookieParser())
 
 //variavel global
 const PORT = process.env.PORT
 const DATABASE_NAME = process.env.DB_NAME
 const DATABASE_USER = process.env.DB_USER
 const DATABASE_PASSWORD = process.env.DB_PASS
-const DATABASE_URL = `mongodb+srv://${DATABASE_USER}:${DATABASE_PASSWORD}@cluster0.8rneedh.mongodb.net/${DATABASE_NAME}?retryWrites=true&w=majority&appName=Cluster0`
-
-servidor.use("/login", loginController)
-servidor.use("/users", userController)
-servidor.use("/clients", clientController)
-servidor.use("/todo", todoController)
+const CLUSTER = process.env.CLUSTER
+// const DATABASE_URL = `mongodb+srv://${DATABASE_USER}:${DATABASE_PASSWORD}@cluster0.8rneedh.mongodb.net/${DATABASE_NAME}?retryWrites=true&w=majority&appName=Cluster0`
+const DATABASE_URL = `mongodb+srv://${DATABASE_USER}:${DATABASE_PASSWORD}@astronoapp.swha5ju.mongodb.net/${DATABASE_NAME}?retryWrites=true&w=majority&appName=astronoApp`
+servidor.use("/", observationsController )
 
 mongoose.connect(DATABASE_URL)
     .then(() => {
